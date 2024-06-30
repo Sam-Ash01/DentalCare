@@ -1,0 +1,20 @@
+#Requirments:
+
+##Client:
+
+01- Book Appointment
+02- Show All Appointments
+03- Delete Appointment
+04- Show All Doctors: -filter(service) -search by name
+
+
+##Doctor:
+
+01- Show Today Appointments
+02- Show Unread Messages
+03- Show All Appointments 
+04 Show Requests
+05- Update Request State 
+06- Delete Appointment 
+07- Show Profile
+08- Update Profile
