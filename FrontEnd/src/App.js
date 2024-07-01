@@ -12,11 +12,14 @@ import Layout from './Component/Layout';
 import LayoutClient from './Component/LayoutClient';
 import DoctordashboardHome from './pages/DoctorPages/DoctordashboardHome';
 import DoctordashboardAppointments from './pages/DoctorPages/DoctordashboardAppointments';
+import { TokenProvider } from './Component/TokenProvider';
+import ProtectedRoute from './Component/ProtectedRoute';
 import ClientdashboardAppointments from './pages/ClientPages/ClientdashboardAppointments';
 
 function App() {
   return (
     <div className="App">
+      <TokenProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Homepage />} />
@@ -32,11 +35,13 @@ function App() {
           </Route>
           <Route path="/" element={<Layout/>}>
             {/* Doctor Dashboard */}
-            <Route path='DoctorDashboardHome' element={<DoctordashboardHome />} />
-            <Route path='DoctorDashboardAppointments' element={<DoctordashboardAppointments />} />
+            <Route path='DoctorDashboardHome' element={<DoctordashboardHome/>}/>
+            <Route path='DoctorDashboardAppointments' element={<DoctordashboardAppointments/>}/>
+
           </Route>
         </Routes>
       </Router>
+    </TokenProvider>
     </div>
   );
 }

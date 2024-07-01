@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Greeting from '../../Component/Greeting';
+import { TokenContext } from '../../Component/TokenProvider';
+
 
 function ClientdashboardHome() {
+  const token = useContext(TokenContext)
+  console.log(token.token,'token');
+
   const [selectedService, setSelectedService] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredDentists, setFilteredDentists] = useState([]);
