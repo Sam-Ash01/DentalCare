@@ -33,3 +33,22 @@ export const allAppointments = async (req, res) => {
     res.send(e.message)
 }
 }
+
+export const deleteAppointment = async (req, res) => {
+    try {
+        const {appointmentId} = req.params;
+        const checkAppointment = await Appointment.findOne({ appointmentId })
+        if(checkAppointment){
+        if(req.user._id){
+            const removeAppointment = await Appointment.findByIdAndDelete( appointmentId )
+            res.status(200).json({ message: 'Appointment deleted successfully' })
+        }else{
+            res.json({ message: 'invalid user' })
+        }
+    }else{
+        res.status(404).json({ message: 'appointment not found' })
+    }
+    } catch (e) {
+        res.send(e.message)
+    }
+}

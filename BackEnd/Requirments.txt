@@ -4,7 +4,7 @@
 
 01- Book Appointment *** [Done]
 02- Show All Appointments Client *** [Done]
-03- Delete Appointment
+03- Delete Appointment Client *** [Done]
 04- Show All Doctors: -filter(service) -search by name
 
 
