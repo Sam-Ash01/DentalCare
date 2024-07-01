@@ -11,10 +11,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './Component/Layout';
 import DoctordashboardHome from './pages/DoctorPages/DoctordashboardHome';
 import DoctordashboardAppointments from './pages/DoctorPages/DoctordashboardAppointments';
+import { TokenProvider } from './Component/TokenProvider';
+import ProtectedRoute from './Component/ProtectedRoute';
 
 function App() {
   return (
     <div className="App">
+      <TokenProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Homepage />} />
@@ -30,10 +33,10 @@ function App() {
             {/* Doctor Dashboard */}
             <Route path='DoctorDashboardHome' element={<DoctordashboardHome/>}/>
             <Route path='DoctorDashboardAppointments' element={<DoctordashboardAppointments/>}/>
-
           </Route>
         </Routes>
       </Router>
+    </TokenProvider>
     </div>
   );
 }

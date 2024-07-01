@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './ClientdashboardHome.css'
 import Sidebar from '../../Component/Sidebar'
+import { TokenContext } from '../../Component/TokenProvider';
 
 function ClientdashboardHome() {
+  const token = useContext(TokenContext)
+  console.log(token.token,'token');
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="w-full mx-auto bg-[#F2F1FE] rounded-lg overflow-hidden">

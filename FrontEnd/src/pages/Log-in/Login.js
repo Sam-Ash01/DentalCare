@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { TokenContext } from "../../Component/TokenProvider";
+
 function Login() {
+  const {setToken} = useContext(TokenContext)
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,50 +16,28 @@ function Login() {
   const handleSubmit = async (event) => {
     console.log("hi")
     event.preventDefault();
-    const token = await fetch('http://localhost:4000/api/login',
-    {method : 'POST',
+    const res = await fetch('http://localhost:5000/api/auth/login',
+    {
+      method : 'POST',
     headers:{
         'Content-Type':'application/json'
     },
-    body: JSON.stringify({ email, password})}).then(res=>res.json())
-    .then(
-      // const token = response.data.token;
-      data => {
-          console.log(data)
-            console.log(data.token + 'token')
-            // console.log(data)
-        if(data.token){
-                    console.log("Login Success");
-                    alert('Login successful!')
-                    navigate('/home');
-                }
-                else{
-                    alert('Incorrect password! Please try again.');
-                }
-})
-    localStorage.setItem('token', token)
-  
-    // axios.post( 'http://localhost:3002/login', {email, password})
-    // .then(result => {
-    //     console.log(result);
-    //     if(result.data === "Success"){
-    //         console.log("Login Success");
-    //         alert('Login successful!')
-    //         navigate('/home');
-    //     }
-    //     else{
-    //         alert('Incorrect password! Please try again.');
-    //     }
-    // })
-    // .catch(err => console.log(err));
+    body: JSON.stringify({ email, password})
+  })
+  console.log(res,'res');
+  if(res.ok){
+    const data = await res.json()
+    const token = data.token
+    setToken(token)
+    console.log(data,'data');
+    if(data.role ==='client'){
+      navigate('/ClientdashboardHome')
+    }
+    else{
+      navigate('/DoctorDashboardHome')
+    }
+  }
 }
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     // Handle form submission here
-//     console.log("Email:", email);
-//     console.log("Password:", password);
-//   };
-
   return (
     <div className="flex items-center justify-start min-h-screen bg-blue-100 flexclomn">
     <div className=" flex justify-start w-full w100per">
