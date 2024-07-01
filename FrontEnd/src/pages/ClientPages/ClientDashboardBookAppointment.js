@@ -6,7 +6,6 @@ const ClientDashboardBookAppointment = () => {
     <div className="min-h-screen bg-gray-100">
       <div className="w-full mx-auto bg-[#F2F1FE] rounded-lg overflow-hidden">
         <div className="flex">
-          <Sidebar />
           <div className="w-3/4">
             <img src={'/img14.png'} alt='back icon' className='pt-14 pl-8'/>
             <h1 className='font-bold text-3xl pl-8 pt-14'>Book an appointment</h1>

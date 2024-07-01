@@ -9,8 +9,10 @@ import ClientdashboardHome from './pages/ClientPages/ClientdashboardHome';
 import ClientDashboardBookAppointment from './pages/ClientPages/ClientDashboardBookAppointment';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './Component/Layout';
+import LayoutClient from './Component/LayoutClient';
 import DoctordashboardHome from './pages/DoctorPages/DoctordashboardHome';
 import DoctordashboardAppointments from './pages/DoctorPages/DoctordashboardAppointments';
+import ClientdashboardAppointments from './pages/ClientPages/ClientdashboardAppointments';
 
 function App() {
   return (
@@ -22,15 +24,16 @@ function App() {
           <Route path='/SignupDoctor' element={<SignupDoctor />} />
           <Route path='/SignupClient' element={<SignupClient />} />
           <Route path='/Login' element={<Login />} />
-            {/* Client Dashboard */}
+          {/* Client Dashboard */}
+          <Route path="/" element={<LayoutClient/>}>
             <Route path="ClientdashboardHome" element={<ClientdashboardHome />} />
             <Route path="ClientDashboardBookAppointment" element={<ClientDashboardBookAppointment />} />
-            {/* OutLet */}
-            <Route path="/" element={<Layout />}>
+            <Route path="ClientdashboardAppointments" element={<ClientdashboardAppointments />} />
+          </Route>
+          <Route path="/" element={<Layout/>}>
             {/* Doctor Dashboard */}
-            <Route path='DoctorDashboardHome' element={<DoctordashboardHome/>}/>
-            <Route path='DoctorDashboardAppointments' element={<DoctordashboardAppointments/>}/>
-
+            <Route path='DoctorDashboardHome' element={<DoctordashboardHome />} />
+            <Route path='DoctorDashboardAppointments' element={<DoctordashboardAppointments />} />
           </Route>
         </Routes>
       </Router>
