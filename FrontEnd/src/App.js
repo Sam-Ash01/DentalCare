@@ -20,29 +20,30 @@ function App() {
   return (
     <div className="App">
       <TokenProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/community" element={<Community />} />
-          <Route path='/SignupDoctor' element={<SignupDoctor />} />
-          <Route path='/SignupClient' element={<SignupClient />} />
-          <Route path='/Login' element={<Login />} />
-          {/* Client Dashboard */}
-          <Route path="/" element={<LayoutClient/>}>
-            <Route path="ClientdashboardHome" element={<ClientdashboardHome />} />
-            <Route path="ClientDashboardBookAppointment" element={<ClientDashboardBookAppointment />} />
-            <Route path="ClientdashboardAppointments" element={<ClientdashboardAppointments />} />
-          </Route>
-          <Route path="/" element={<Layout/>}>
-            {/* Doctor Dashboard */}
-            <Route path='DoctorDashboardHome' element={<DoctordashboardHome/>}/>
-            <Route path='DoctorDashboardAppointments' element={<DoctordashboardAppointments/>}/>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/community" element={<Community />} />
+            <Route path='/SignupDoctor' element={<SignupDoctor />} />
+            <Route path='/SignupClient' element={<SignupClient />} />
+            <Route path='/Login' element={<Login />} />
+            <Route element={<ProtectedRoute />} />
+            {/* Client Dashboard */}
+            <Route path="/" element={<LayoutClient />}>
+              <Route path="ClientdashboardHome" element={<ClientdashboardHome />} />
+              <Route path="ClientDashboardBookAppointment" element={<ClientDashboardBookAppointment />} />
+              <Route path="ClientdashboardAppointments" element={<ClientdashboardAppointments />} />
+            </Route>
+            <Route path="/" element={<Layout />}>
+              {/* Doctor Dashboard */}
+              <Route path='DoctorDashboardHome' element={<DoctordashboardHome />} />
+              <Route path='DoctorDashboardAppointments' element={<DoctordashboardAppointments />} />
 
-          </Route>
-        </Routes>
-      </Router>
-    </TokenProvider>
-    </div>
+            </Route>
+          </Routes>
+        </Router>
+      </TokenProvider>
+    </div >
   );
 }
 
