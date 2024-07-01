@@ -2,8 +2,8 @@
 
 ##Client:
 
-01- Book Appointment
-02- Show All Appointments
+01- Book Appointment *** [Done]
+02- Show All Appointments Client
 03- Delete Appointment
 04- Show All Doctors: -filter(service) -search by name
 
@@ -12,7 +12,7 @@
 
 01- Show Today Appointments
 02- Show Unread Messages
-03- Show All Appointments 
+03- Show All Appointments Doctor 
 04 Show Requests
 05- Update Request State 
 06- Delete Appointment 
