@@ -3,8 +3,10 @@ import './App.css';
 import Homepage from './Component/Homepage';
 import Community from './pages/Log-in/Community';
 import SignupDoctor from './pages/Log-in/SignupDoctor';
+import Dentalform from './pages/Log-in/Dentalform';
 import SignupClient from './pages/Log-in/SignupClient';
 import Login from './pages/Log-in/Login';
+import Resetpass from './pages/Log-in/Resetpass';
 import ClientdashboardHome from './pages/ClientPages/ClientdashboardHome';
 import ClientDashboardBookAppointment from './pages/ClientPages/ClientDashboardBookAppointment';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -25,8 +27,10 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/community" element={<Community />} />
             <Route path='/SignupDoctor' element={<SignupDoctor />} />
+            <Route path='/Dentalform' element={<Dentalform />} />
             <Route path='/SignupClient' element={<SignupClient />} />
             <Route path='/Login' element={<Login />} />
+            <Route path='/Resetpass' element={<Resetpass />} />
             <Route element={<ProtectedRoute />} />
             {/* Client Dashboard */}
             <Route path="/" element={<LayoutClient />}>

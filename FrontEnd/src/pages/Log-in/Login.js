@@ -92,7 +92,7 @@ function Login() {
               Login
             </button>
             <a
-              href="#"
+              href="/Resetpass"
               className="inline-block align-baseline font-bold text-sm blueden bluedenhover1"
             >
               Forgot Password?
@@ -102,7 +102,7 @@ function Login() {
         <p className="text-center text-gray-500 mt-4">
           Don't have an account?{" "}
           <a
-            href="#"
+            href="/Community"
             className="blueden bluedenhover1"
           >
             Sign up

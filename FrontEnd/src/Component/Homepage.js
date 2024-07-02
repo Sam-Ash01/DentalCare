@@ -5,7 +5,7 @@ import About from './About'
 function Homepage() {
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <Herosection/>
       <About/>
     </div>
