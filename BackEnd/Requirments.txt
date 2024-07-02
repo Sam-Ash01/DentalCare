@@ -2,10 +2,17 @@
 
 ##Client:
 
+<<<<<<< HEAD
+01- Book Appointment *** [Done]
+02- Show All Appointments Client *** [Done]
+03- Delete Appointment Client *** [Done]
+04- Show All Doctors: -filter(service) -search by name *** [Done]
+=======
 01- Book Appointment *** [Done] *** [Update Routes] /clientAppointment/:doctorId
 02- Show All Appointments Client *** [Done] *** [Update Routes] /clientAppointment
 03- Delete Appointment Client *** [Done] *** [Update Routes] /clinetAppointment/:appointmentId
 04- Show All Doctors: -filter(service) -search by name
+>>>>>>> f02e0bac8070c3b05758f63c5b16510219aeca07
 
 
 ##Doctor:

@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Greeting from '../../Component/Greeting';
-import { TokenContext } from '../../Component/TokenProvider';
-
 
 function ClientdashboardHome() {
-  const token = useContext(TokenContext)
-  console.log(token.token,'token');
-
   const [selectedService, setSelectedService] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredDentists, setFilteredDentists] = useState([]);
 
@@ -26,7 +24,11 @@ function ClientdashboardHome() {
   ];
 
   const handleServiceClick = (service) => {
-    setSelectedService(service.name);
+    setSelectedService(service.name === selectedService ? null : service.name);
+  };
+
+  const handleBookAppointment = (doctor) => {
+    setSelectedDoctor(doctor.name);
   };
 
   useEffect(() => {
@@ -43,15 +45,23 @@ function ClientdashboardHome() {
       <div className="p-2">
         <h2 className="text-2xl font-bold mb-2">Services</h2>
         <div className="grid grid-cols-4 gap-4">
-          {services.map(service => (
-            <div
+          {services.map((service, index) => (
+            <motion.div
               key={service.name}
-              className={`p-4 bg-white rounded-2xl shadow-lg text-center border-2 border-solid cursor-pointer transition-all duration-300 transform ${selectedService === service.name ? 'border-[#55CDF1] text-[#55CDF1]' : 'border-[#FFFFFF]'} hover:border-[#55CDF1] hover:text-[#55CDF1] hover:scale-105`}
+              className={`relative p-4 bg-white rounded-2xl shadow-lg text-center border-2 border-solid cursor-pointer transition-all duration-300 transform hover:scale-105 ${selectedService === service.name ? 'border-[#55CDF1] text-[#55CDF1]' : 'border-[#FFFFFF]'} `}
               onClick={() => handleServiceClick(service)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1 }}
             >
               <img src={service.image} alt={service.name} className="w-42 mx-auto mb-2" />
               <p className="text-lg font-bold">{service.name}</p>
-            </div>
+              {selectedService === service.name && (
+                <div className="absolute top-0 left-0 right-0 bottom-0 border-4 border-[#55CDF1] rounded-2xl pointer-events-none"></div>
+              )}
+            </motion.div>
           ))}
         </div>
       </div>
@@ -71,7 +81,14 @@ function ClientdashboardHome() {
         </div>
         <div className="w-full">
           {(searchQuery || selectedService ? filteredDentists : dentists).map((dentist, index) => (
-            <div key={index} className="flex items-center mb-4 p-4 bg-white shadow-lg rounded-lg w-full">
+            <motion.div
+              key={index}
+              className="flex items-center mb-4 p-4 bg-white shadow-lg rounded-lg w-full transition-transform duration-500 transform hover:scale-102"
+              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
               <img src={dentist.image} alt={dentist.name} className="w-16 h-16 rounded-full mr-4" />
               <div className="flex-grow">
                 <h3 className="text-lg font-bold">Dr. {dentist.name}</h3>
@@ -81,8 +98,20 @@ function ClientdashboardHome() {
                 </div>
                 <p className="text-gray-600 inline-block">Services: {dentist.services.join(', ')}</p>
               </div>
-              <button className="ml-auto bg-[#FFFFFF] text-[#55CDF1] border-[#55CDF1] border-solid border-2 transition-all duration-500 hover:bg-[#55CDF1] hover:text-[#FFFFFF] hover:border-[#55CDF1] px-4 py-2 rounded-3xl">Book an appointment</button>
-            </div>
+              <Link
+                to={`/ClientDashboardBookAppointment?doctor=${encodeURIComponent(dentist.name)}&service=${encodeURIComponent(selectedService)}`}
+                className="ml-auto"
+                onClick={() => handleBookAppointment(dentist)}
+              >
+                <motion.button
+                  className="bg-[#FFFFFF] text-[#55CDF1] border-[#55CDF1] border-solid border-2 transition-all duration-700 hover:bg-[#55CDF1] hover:text-[#FFFFFF] hover:border-[#55CDF1] px-4 py-2 rounded-3xl"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Book an appointment
+                </motion.button>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>

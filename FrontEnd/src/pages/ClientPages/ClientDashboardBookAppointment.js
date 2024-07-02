@@ -1,56 +1,175 @@
-import React, { useState } from 'react';
-import Sidebar from '../../Component/Sidebar';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const ClientDashboardBookAppointment = () => {
-  return(
-    <div className="min-h-screen bg-gray-100">
-      <div className="w-full mx-auto bg-[#F2F1FE] rounded-lg overflow-hidden">
-        <div className="flex">
-          <div className="w-3/4">
-            <img src={'/img14.png'} alt='back icon' className='pt-14 pl-8'/>
-            <h1 className='font-bold text-3xl pl-8 pt-14'>Book an appointment</h1>
-            <form className='flex justify-between w-full'>
-                <div className='mb-4 w-5/12 relative border border-gray-400 rounded-md mt-10 ml-8'>
-                    <label className='absolute -top-2.5 left-2.5 bg-[#F2F1FE] px-1 text-gray-700 text-xs'>Dr. Name</label>
-                    <input type='text' placeholder='Enter Dr. Name' className='px-3 py-2 rounded-md w-full'/>
-                </div>
-                <div className='mb-4 w-5/12 relative border border-gray-400 rounded-md mt-10 mr-16'>
-                    <label className='absolute -top-2.5 left-2.5 bg-[#F2F1FE] px-1 text-gray-700 text-xs'>Services</label>
-                    <select className='rounded-md w-full h-full'>
-                        <option value={'Orthodontics'}>Orthodontics</option>
-                        <option value={'Oral Hygiene'}>Oral Hygiene</option>
-                        <option value={'Cosmetic Dentistry'}>Cosmetic Dentistry</option>
-                        <option value={'Cosmetic Dentistry'}>Cosmetic Dentistry</option>
-                    </select>
-                </div>
-            </form>
-            <form className='flex justify-between w-full'>
-                <div className='mb-4 w-5/12 relative border border-gray-400 rounded-md mt-10 ml-8'>
-                    <label className='absolute -top-2.5 left-2.5 bg-[#F2F1FE] px-1 text-gray-700 text-xs'>Date</label>
-                    <input type='date' className='px-3 py-2 rounded-md w-full'/>
-                </div>
-                <div className='mb-4 w-5/12 relative border border-gray-400 rounded-md mt-10 mr-16'>
-                    <label className='absolute -top-2.5 left-2.5 bg-[#F2F1FE] px-1 text-gray-700 text-xs'>Date</label>
-                    <input type='time' className='px-3 py-2 rounded-md w-full'/>
-                </div>
-            </form>
-            <form className='w-full'>
-                <div className='mb-4 w-11/12 relative border border-gray-400 rounded-md mt-10 ml-8'>
-                    <label className='absolute -top-2.5 left-2.5 bg-[#F2F1FE] px-1 text-gray-700 text-xs'>Description</label>
-                    <input type='text' placeholder='Enter Dr. Name' className='px-3 py-2 rounded-md w-full'/>
-                </div>
-            </form>
-            <form className='w-full'>
-                <div className='mb-4 w-11/12 relative border border-gray-400 rounded-md mt-10 ml-8'>
-                    <input type='file' className='px-3 py-2 rounded-md'/>
-                </div>
-            </form>
-            <form className='w-full'>
-                <div className='mb-4 w-11/12 rounded-md mt-10 ml-8 pb-24'>
-                    <input type='submit' value={'Submit'} className='px-3 py-2 rounded-md w-full bg-[#55CDF1] text-white'/>
-                </div>
-            </form>
-          </div>
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialDoctorName = queryParams.get('doctor') || '';
+  const initialService = queryParams.get('service') || 'Orthodontics'; // Default value if service is not provided
+
+  const [doctorName, setDoctorName] = useState(initialDoctorName);
+  const [selectedService, setSelectedService] = useState(initialService);
+  const [availableDates, setAvailableDates] = useState([]);
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
+
+  // Simulating fetch data from backend API
+  useEffect(() => {
+    // Fake data for demonstration
+    const fakeDates = [
+      '2024-07-10',
+      '2024-07-11',
+      '2024-07-12',
+
+    ];
+
+    const fakeTimes = [
+      '09:00 AM',
+      '10:00 AM',
+      '11:00 AM',
+      '12:00 PM',
+      '01:00 PM',
+      '02:00 PM',
+    ];
+
+    const fetchDates = () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(fakeDates);
+        }, 1000);
+      });
+    };
+
+    const fetchTimes = () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(fakeTimes);
+        }, 500);
+      });
+    };
+
+    fetchDates().then((data) => {
+      setAvailableDates(data);
+    });
+
+    fetchTimes().then((data) => {
+      setAvailableTimes(data);
+    });
+  }, []);
+
+  const handleDateSelection = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleTimeSelection = (time) => {
+    setSelectedTime(time);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // You can optionally prevent form submission if doctorName and selectedService are not allowed to change
+    // Example: console.log("Form submitted with:", doctorName, selectedService);
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-start bg-[#F2F1FE]">
+      <div className="w-full max-w-[70%] bg-[#F2F1FE] rounded-lg overflow-hidden">
+        <div className="flex items-center justify-between bg-[#F2F1FE] p-4">
+          <Link to="/ClientdashboardHome" className="flex items-center text-gray-700 hover:text-[#55CDF1]">
+            <FaArrowLeft className="h-6 w-6" />
+            <span className="font-semibold text-xl ml-2">Back</span>
+          </Link>
+        </div>
+        <div className="p-8 bg-gray-100">
+          <h1 className="font-bold text-3xl mb-6">Book an Appointment</h1>
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="relative">
+                <label htmlFor="doctorName" className="block text-sm font-medium text-gray-700">Doctor's Name</label>
+                <input
+                  id="doctorName"
+                  type="text"
+                  value={doctorName}
+                  readOnly // Make the input read-only
+                  className="px-3 py-2 w-full bg-gray-200 border border-gray-300 rounded-md focus:outline-none"
+                />
+              </div>
+              <div className="relative">
+                <label htmlFor="services" className="block text-sm font-medium text-gray-700">Services</label>
+                <select
+                  id="services"
+                  value={selectedService}
+                  disabled // Disable select to prevent changes
+                  className="px-3 py-2 w-full bg-gray-200 border border-gray-300 rounded-md focus:outline-none"
+                >
+                  <option value="Orthodontics">Orthodontics</option>
+                  <option value="Oral Hygiene">Oral Hygiene</option>
+                  <option value="Cosmetic Dentistry">Cosmetic Dentistry</option>
+                  <option value="Dental Treatment">Dental Treatment</option>
+                </select>
+              </div>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="appointmentDate" className="block text-sm font-medium text-gray-700 mb-1">Select Date</label>
+              <div className="flex space-x-2 mb-2">
+                {availableDates.map((date, index) => (
+                  <button
+                    key={index}
+                    className={`px-3 py-2 bg-[#55CDF1] border border-[#55CDF1] text-[#55CDF1] rounded-md hover:bg-[#55CDF1] hover:text-white transition duration-200 ${
+                      selectedDate === date ? 'bg-[#55CDF1] text-white' : 'bg-white'
+                    }`}
+                    onClick={() => handleDateSelection(date)}
+                  >
+                    {date}
+                  </button>
+                ))}
+              </div>
+              <input
+                id="appointmentDate"
+                type="hidden"
+                value={selectedDate}
+                className="px-3 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-[#55CDF1]"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="appointmentTime" className="block text-sm font-medium text-gray-700 mb-1">Select Time</label>
+              <div className="flex space-x-2 mb-2">
+                {availableTimes.map((time, index) => (
+                  <button
+                    key={index}
+                    className={`px-3 py-2 bg-[#55CDF1] border border-[#55CDF1] text-[#55CDF1] rounded-md hover:bg-[#55CDF1] hover:text-white transition duration-200 ${
+                      selectedTime === time ? 'bg-[#55CDF1] text-white' : 'bg-white'
+                    }`}
+                    onClick={() => handleTimeSelection(time)}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
+              <input
+                id="appointmentTime"
+                type="hidden"
+                value={selectedTime}
+                className="px-3 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-[#55CDF1]"
+              />
+            </div>
+            <div className="relative">
+              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+              <textarea
+                id="description"
+                placeholder="Enter Description"
+                className="px-3 py-2 w-full h-20 border border-gray-300 rounded-md focus:outline-none focus:border-[#55CDF1]"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              className="bg-[#55CDF1] w-full text-white py-2 px-4 rounded-md hover:bg-[#3BA4D8] transition duration-200"
+            >
+              Submit
+            </button>
+          </form>
         </div>
       </div>
     </div>
