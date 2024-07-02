@@ -10,6 +10,7 @@ function ClientdashboardHome() {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredDentists, setFilteredDentists] = useState([]);
+  const [dentists, setDentists] = useState([]);
 
   const services = [
     { name: 'Orthodontics', image: '/Orthodontics.png' },
@@ -18,28 +19,44 @@ function ClientdashboardHome() {
     { name: 'Dental Treatment', image: '/Dental Treatment.png' },
   ];
 
-  const dentists = [
-    { name: 'Joseph Brostito', location: 'Damascus', services: ['Orthodontics', 'Oral Hygiene'], image: '/DoctorAvatar.png' },
-    { name: 'Sarah Johnson', location: 'New York', services: ['Cosmetic Dentistry', 'Dental Treatment'], image: '/DoctorAvatar.png' },
-    { name: 'Michael Smith', location: 'Los Angeles', services: ['Orthodontics', 'Cosmetic Dentistry'], image: '/DoctorAvatar.png' },
-    { name: 'Emma Davis', location: 'Chicago', services: ['Oral Hygiene', 'Dental Treatment'], image: '/DoctorAvatar.png' },
-  ];
-
   const handleServiceClick = (service) => {
     setSelectedService(service.name === selectedService ? null : service.name);
   };
 
   const handleBookAppointment = (doctor) => {
-    setSelectedDoctor(doctor.name);
+    setSelectedDoctor(doctor.fullName);
   };
 
   useEffect(() => {
+    const fetchDentists = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/users/doctors');
+        const data = await response.json();
+
+        // Debugging: Log the fetched data
+        console.log("Fetched dentists:", data);
+
+        // Ensure the data contains a 'doctors' array
+        if (Array.isArray(data.doctors)) {
+          setDentists(data.doctors);
+        } else {
+          console.error('Fetched data does not contain a doctors array', data);
+        }
+      } catch (error) {
+        console.error('There was an error fetching the dentists!', error);
+      }
+    };
+
+    fetchDentists();
+  }, []);
+
+  useEffect(() => {
     const filtered = dentists.filter(dentist =>
-      (searchQuery === '' || dentist.name.toLowerCase().startsWith(searchQuery.toLowerCase()) || dentist.location.toLowerCase().startsWith(searchQuery.toLowerCase())) &&
+      (searchQuery === '' || dentist.fullName.toLowerCase().startsWith(searchQuery.toLowerCase()) || dentist.university.toLowerCase().startsWith(searchQuery.toLowerCase())) &&
       (selectedService === null || dentist.services.includes(selectedService))
     );
     setFilteredDentists(filtered);
-  }, [searchQuery, selectedService]);
+  }, [searchQuery, selectedService, dentists]);
 
   return (
     <div>
@@ -91,17 +108,17 @@ function ClientdashboardHome() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <img src={dentist.image} alt={dentist.name} className="w-16 h-16 rounded-full mr-4" />
+              <img src={dentist.profilePic} alt={dentist.fullName} className="w-16 h-16 rounded-full mr-4" />
               <div className="flex-grow">
-                <h3 className="text-lg font-bold">Dr. {dentist.name}</h3>
+                <h3 className="text-lg font-bold">Dr. {dentist.fullName}</h3>
                 <div className='flex items-center'>
                   <img src="/img5.png" alt="location" className="w-3 h-4 mr-2 inline-block" />
-                  <p className="text-gray-600 inline-block">{dentist.location}</p>
+                  <p className="text-gray-600 inline-block">{dentist.university}</p>
                 </div>
                 <p className="text-gray-600 inline-block">Services: {dentist.services.join(', ')}</p>
               </div>
               <Link
-                to={`/ClientDashboardBookAppointment?doctor=${encodeURIComponent(dentist.name)}&service=${encodeURIComponent(selectedService)}`}
+                to={`/ClientDashboardBookAppointment?doctor=${encodeURIComponent(dentist.fullName)}&service=${encodeURIComponent(selectedService)}`}
                 className="ml-auto"
                 onClick={() => handleBookAppointment(dentist)}
               >
