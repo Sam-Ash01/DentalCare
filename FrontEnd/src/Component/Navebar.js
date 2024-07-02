@@ -5,7 +5,7 @@ import './Style.css'
 function Navbar() {
   
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md fixed top-0 w-dvw">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <div className="flex items-center">
           <a href="/" className="text-xl font-bold blueden">

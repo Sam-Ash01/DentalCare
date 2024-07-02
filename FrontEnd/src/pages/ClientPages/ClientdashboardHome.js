@@ -1,71 +1,124 @@
-import React from 'react'
-import './ClientdashboardHome.css'
-import Sidebar from '../../Component/Sidebar'
+import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import Greeting from '../../Component/Greeting';
+import { TokenContext } from "../../Component/TokenProvider";
 
 function ClientdashboardHome() {
+  const {setToken} = useContext(TokenContext)
+  const [selectedService, setSelectedService] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredDentists, setFilteredDentists] = useState([]);
+
+  const services = [
+    { name: 'Orthodontics', image: '/Orthodontics.png' },
+    { name: 'Oral Hygiene', image: '/Oral Hygiene.png' },
+    { name: 'Cosmetic Dentistry', image: '/Cosmetic Dentistry.png' },
+    { name: 'Dental Treatment', image: '/Dental Treatment.png' },
+  ];
+
+  const dentists = [
+    { name: 'Joseph Brostito', location: 'Damascus', services: ['Orthodontics', 'Oral Hygiene'], image: '/DoctorAvatar.png' },
+    { name: 'Sarah Johnson', location: 'New York', services: ['Cosmetic Dentistry', 'Dental Treatment'], image: '/DoctorAvatar.png' },
+    { name: 'Michael Smith', location: 'Los Angeles', services: ['Orthodontics', 'Cosmetic Dentistry'], image: '/DoctorAvatar.png' },
+    { name: 'Emma Davis', location: 'Chicago', services: ['Oral Hygiene', 'Dental Treatment'], image: '/DoctorAvatar.png' },
+  ];
+
+  const handleServiceClick = (service) => {
+    setSelectedService(service.name === selectedService ? null : service.name);
+  };
+
+  const handleBookAppointment = (doctor) => {
+    setSelectedDoctor(doctor.name);
+  };
+
+  useEffect(() => {
+    const filtered = dentists.filter(dentist =>
+      (searchQuery === '' || dentist.name.toLowerCase().startsWith(searchQuery.toLowerCase()) || dentist.location.toLowerCase().startsWith(searchQuery.toLowerCase())) &&
+      (selectedService === null || dentist.services.includes(selectedService))
+    );
+    setFilteredDentists(filtered);
+  }, [searchQuery, selectedService]);
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="w-full mx-auto bg-[#F2F1FE] rounded-lg overflow-hidden">
-        <div className="flex">
-          <Sidebar /> 
-          <div className="w-3/4">
-            <header className="relative flex mt-5 mb-10 rounded-xl bg-white h-52 shadow-lg">
-              <div className='mt-10 ml-28 w-4/12'>
-              <h1 className="text-4xl font-bold mb-7">Hello Sam!</h1>
-              <p className="text-black text-xl">Let’s help you book an appointment Choose a service to find dentist</p>
-              </div>
-              <img src={"/img1.png"} alt="Sam Alex" id="img1" className="absolute w-5/12 right-0 -top-6"/>
-            </header>
-            <section className="mb-8">
-              <h2 className="text-3xl font-bold mb-4">Services</h2>
-              <div className="grid grid-cols-4 gap-4">
-                <div className="p-5 bg-white rounded-2xl shadow-lg text-center border-[#FFFFFF] border-2 border-solid hover:border-[#55CDF1] hover:text-[#55CDF1]">
-              <img src={"/img6.png"} alt="Sam Alex" className="w-52 h-44 ml-5"/>
-                  <p className="text-xl font-bold pb-2">Orthodontics</p>
-                </div>
-                <div className="p-4 bg-white rounded-2xl shadow-lg text-center border-[#FFFFFF] border-2 border-solid hover:border-[#55CDF1] hover:text-[#55CDF1]">
-              <img src={"/img7.png"} alt="Sam Alex" className="w-52 h-44 ml-5"/>
-                  <p className="text-lg font-bold">Oral Hygiene</p>
-                </div>
-                <div className="p-4 bg-white rounded-2xl shadow-lg text-center border-[#FFFFFF] border-2 border-solid hover:border-[#55CDF1] hover:text-[#55CDF1]">
-              <img src={"/img8.png"} alt="Sam Alex" className="w-52 h-44 ml-5"/>
-                  <p className="text-lg font-bold">Cosmetic Dentistry</p>
-                </div>
-                <div className="p-4 bg-white rounded-2xl shadow-lg text-center border-[#FFFFFF] border-2 border-solid hover:border-[#55CDF1] hover:text-[#55CDF1]">
-              <img src={"/img9.png"} alt="Sam Alex" className="w-52 h-44 ml-5"/>
-                  <p className="text-lg font-bold">Cosmetic Dentistry</p>
-                </div>
-              </div>
-            </section>
-            <section className='relative'>
-              <h2 className="text-3xl font-bold mb-4 display: inline-block">Dentists</h2>
-              <img src={"/img13.png"} alt="search icon" className="display: inline-block absolute right-64 top-2"/>
-            <input type='text' placeholder='Search for dentist' className='outline-none placeholder:text-black border-[#F2F1FE] border-b-black border-2 border-solid w-60 bg-[#F2F1FE] absolute right-0'/>
-              <div>
-                {[1, 2, 3, 4].map((_, index) => (
-                  <div key={index} className="flex items-center mb-4 p-4 bg-white shadow-lg rounded-lg">
-                    <img src="/img4.png" alt="Dr. Joseph Brostito" className="w-16 h-16 rounded-full mr-4"/>
-                    <div>
-                      <h3 className="text-lg font-bold">Dr. Joseph Brostito</h3>
-                      <div className=''>
-                      <img src="/img5.png" alt="location" className="w-3 h-4 display: inline-block mr-4"/>
-                      <p className="text-g ray-600 display: inline-block">Damascus</p>
-                      </div>
-                    </div>
-                    <button className="ml-auto bg-[#FFFFFF]
-                    text-[#55CDF1] border-[#55CDF1] border-solid
-                    border-2 hover:bg-[#55CDF1] 
-                    hover:text-[#FFFFFF] hover:border-[#55CDF1] 
-                    px-4 py-2 rounded-3xl">Book an appointment</button>
-                  </div>
-                ))}
-              </div>
-            </section>
+    <div>
+      <Greeting name={'Sam'} welcome={"Hello "} text={'Let’s help you book an appointment Choose a service to find dentist '} />
+      <div className="p-2">
+        <h2 className="text-2xl font-bold mb-2">Services</h2>
+        <div className="grid grid-cols-4 gap-4">
+          {services.map((service, index) => (
+            <motion.div
+              key={service.name}
+              className={`relative p-4 bg-white rounded-2xl shadow-lg text-center border-2 border-solid cursor-pointer transition-all duration-300 transform hover:scale-105 ${selectedService === service.name ? 'border-[#55CDF1] text-[#55CDF1]' : 'border-[#FFFFFF]'} `}
+              onClick={() => handleServiceClick(service)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <img src={service.image} alt={service.name} className="w-42 mx-auto mb-2" />
+              <p className="text-lg font-bold">{service.name}</p>
+              {selectedService === service.name && (
+                <div className="absolute top-0 left-0 right-0 bottom-0 border-4 border-[#55CDF1] rounded-2xl pointer-events-none"></div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+      <div className="p-2 w-full">
+        <div className="flex items-center justify-between mb-6 w-full">
+          <h2 className="text-2xl font-bold">Dentists</h2>
+          <div className="relative flex items-center">
+            <img src={"/img13.png"} alt="search icon" className="absolute left-2" />
+            <input
+              type='text'
+              placeholder='Search for dentist'
+              className='outline-none pl-10 placeholder:text-black border-[#F2F1FE] border-b-black border-2 border-solid w-60 bg-[#F2F1FE]'
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
+        </div>
+        <div className="w-full">
+          {(searchQuery || selectedService ? filteredDentists : dentists).map((dentist, index) => (
+            <motion.div
+              key={index}
+              className="flex items-center mb-4 p-4 bg-white shadow-lg rounded-lg w-full transition-transform duration-500 transform hover:scale-102"
+              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <img src={dentist.image} alt={dentist.name} className="w-16 h-16 rounded-full mr-4" />
+              <div className="flex-grow">
+                <h3 className="text-lg font-bold">Dr. {dentist.name}</h3>
+                <div className='flex items-center'>
+                  <img src="/img5.png" alt="location" className="w-3 h-4 mr-2 inline-block" />
+                  <p className="text-gray-600 inline-block">{dentist.location}</p>
+                </div>
+                <p className="text-gray-600 inline-block">Services: {dentist.services.join(', ')}</p>
+              </div>
+              <Link
+                to={`/ClientDashboardBookAppointment?doctor=${encodeURIComponent(dentist.name)}&service=${encodeURIComponent(selectedService)}`}
+                className="ml-auto"
+                onClick={() => handleBookAppointment(dentist)}
+              >
+                <motion.button
+                  className="bg-[#FFFFFF] text-[#55CDF1] border-[#55CDF1] border-solid border-2 transition-all duration-700 hover:bg-[#55CDF1] hover:text-[#FFFFFF] hover:border-[#55CDF1] px-4 py-2 rounded-3xl"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Book an appointment
+                </motion.button>
+              </Link>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ClientdashboardHome
+export default ClientdashboardHome;

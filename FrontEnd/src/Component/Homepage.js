@@ -9,7 +9,7 @@ import Footer from './Footer'
 function Homepage() {
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <Herosection/>
       <About/>
       <Service/>

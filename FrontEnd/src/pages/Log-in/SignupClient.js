@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 // import pic2 from  './../../Component/About2.png';
 import './../../Component/Style.css'
 import { useNavigate } from 'react-router-dom';
+import { TokenContext } from '../../Component/TokenProvider';
 function SignupClient() {
-  
+  const {setToken} = useContext(TokenContext)
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -21,27 +22,31 @@ function SignupClient() {
   };
 
   const handleSubmit = async (event) => {
-    // console.log(email,password);
+    console.log("any thing");
     event.preventDefault();
-    fetch('http://localhost:4000/api/registerClient',{
+   const res = await fetch('http://localhost:5000/api/auth/register',{
         method : 'POST',
         headers:{
             'Content-Type':'application/json'
         },
-        body: JSON.stringify({email: formData.email, password: formData.password})})
-        .then(result => {
-        console.log( "this the amer"+result+result.data);
-        if(result.data === "Already registered"){
-            alert("E-mail already registered! Please Login to proceed.");
-            // console.log(result.data);
-            navigate('/login');
+        body: JSON.stringify({
+          fullName:(formData.firstName.toString() + "" + formData.lastName.toString()),
+          email: formData.email, 
+          password: formData.password,
+          confirmPassword:formData.confirmPassword,
+          phone:formData.phoneNumber,
+          role:'client'
+        })})
+        console.log(res,'res');
+        if(res.ok){
+          const data = await res.json()
+          console.log(data.token,'token');
+          const token = data.token
+          setToken(token)
+          console.log(data,'data');
+          alert('success!')
+          navigate('/ClientdashboardHome')
         }
-        else{
-                alert("Registered successfully! Please Login to proceed.")
-                console.log(result.data);
-                navigate('/ClientdashboardHome');
-            }
-        })
 }
 
   return (
@@ -154,7 +159,7 @@ function SignupClient() {
         </button>
       <p className="text-center mt-1 ">
         Already have an account?{' '}
-        <a href="#" className="underline blueden">
+        <a href="/Login" className="underline blueden">
           Login
         </a>
       </p>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import Greeting from '../../Component/Greeting';
 import Appointment from '../../Component/Appointment';
 import MsgCard from '../../Component/MsgCard';
@@ -30,20 +31,18 @@ const DoctordashboardHome = () => {
             id: 1,
             sender: 'John Doe',
             profilePicture: '',
-            content: 'Hello there! How are you doing today?',
-            time:'11:00pm'
+            content: 'Hello there! How are you?',
+            time: '11:00pm'
         },
         {
             id: 2,
             sender: 'Jane Smith',
             profilePicture: '',
             content: 'Hey! Just checking in. Do you have the latest updates?',
-            time:'11:00pm'
-
+            time: '11:00pm'
         },
         // Add more messages as needed
     ];
-
 
     const handleDelete = (id) => {
         setAppointments(appointments.filter(appointment => appointment.id !== id));
@@ -51,8 +50,10 @@ const DoctordashboardHome = () => {
 
     return (
         <div>
-            <Greeting name={'Chris'} />
-            <div className="p-2">
+            <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="p-2">
+                <Greeting name={'Chris'} welcome={"Hello Dr."} text={'Here’s Your Summary for Today'} />
+            </motion.div>
+            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="p-2">
                 <h2 className="text-2xl font-bold mb-2">Upcoming Appointments</h2>
                 <div className="overflow-x-auto">
                     <div className="min-w-full divide-y divide-gray-200">
@@ -66,35 +67,36 @@ const DoctordashboardHome = () => {
                             <div></div>
                         </div>
                         {appointments.map(appointment => (
-                            <Appointment
-                                key={appointment.id}
-                                profilePicture={appointment.profilePicture}
-                                name={appointment.name}
-                                location={appointment.location}
-                                date={appointment.date}
-                                time={appointment.time}
-                                status={appointment.status}
-                                onDelete={() => handleDelete(appointment.id)}
-                            />
+                            <motion.div key={appointment.id} initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="my-2">
+                                <Appointment
+                                    profilePicture={appointment.profilePicture}
+                                    name={appointment.name}
+                                    location={appointment.location}
+                                    date={appointment.date}
+                                    time={appointment.time}
+                                    status={appointment.status}
+                                    onDelete={() => handleDelete(appointment.id)}
+                                />
+                            </motion.div>
                         ))}
                     </div>
                 </div>
-            </div>
-            <div className="p-2 flex flex-col items-start justify-start">
+            </motion.div>
+            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.5 }} className="p-2 flex flex-col items-start justify-start">
                 <h2 className="text-2xl font-bold mb-6">New Messages</h2>
                 <div>
                     {messages.map(message => (
-                        <MsgCard
-                            key={message.id}
-                            sender={message.sender}
-                            profilePicture={message.profilePicture}
-                            content={message.content}
-                            time={message.time}
-                        />
+                        <motion.div key={message.id} initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="my-2">
+                            <MsgCard
+                                sender={message.sender}
+                                profilePicture={message.profilePicture}
+                                content={message.content}
+                                time={message.time}
+                            />
+                        </motion.div>
                     ))}
                 </div>
-            </div>
-
+            </motion.div>
         </div>
     );
 };
