@@ -26,7 +26,7 @@ function SignupDoctor() {
   const handleSubmit = async (event) => {
     // console.log(email,password);
     event.preventDefault();
-    const res = await  fetch('http://localhost:5000/api/auth/registerDoctor',{
+    const res = await  fetch('http://localhost:5000/api/auth/register',{
         method : 'POST',
         headers:{
             'Content-Type':'application/json'
@@ -41,6 +41,7 @@ function SignupDoctor() {
         })})
           console.log(res,'res');
           if(res.ok){
+            console.log(res.ok)
             const data = await res.json()
             console.log(data.token,'token');
             const token = data.token
