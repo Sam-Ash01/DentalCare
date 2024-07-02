@@ -1,46 +1,78 @@
-import React from 'react'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-function Sidebar() {
-return (
-        <div className="w-2/12 mr-20 bg-[#FFFFFF]">
-            <div className="text-center mb-12">
-                <div className="w-32 h-32 rounded-full m-auto mt-12 mb-6 border-[#55CDF1] border-8 border-solid">
-                    <img src={"/img2.png"}alt="Sam Alex" className='w-24 h-24 m-auto mt-2'/>
+const Sidebar = ({ name, profilePicture }) => {
+    return (
+        <div className="w-64 h-screen bg-white shadow-md fixed">
+            <div className="p-4 mt-6">
+                <img
+                    src={profilePicture}
+                    alt="Profile"
+                    className="w-24 h-24 rounded-full mx-auto p-1 border-4 border-[#55CDF1]" // Added padding class
+                />
+                <div className='flex justify-center items-center mt-4'>
+                    <h2 className="font-semibold text-lg mr-2">{name}</h2>
+                    <img src='/img3.png' alt='pen' className='w-5 h-5 cursor-pointer' />
                 </div>
-            <div className='flex ml-20'>
-                <h2 className="text-lg font-bold mr-4">Sam Alex</h2>
-                <img src={'/img3.png'}alt='pen' className='w-6 h-6'/>
             </div>
-            </div>
-            <nav>
+            <nav className="mt-6">
                 <ul>
-                    <li className="mb-4">
-                        <a href="#" className="flex items-start text-[#55CDF1] border-white border-l-[#55CDF1] border-4 border-solid pl-2">
-                            <span className="material-icons mr-4">home</span>Home
-                        </a>
+                    <li className="mb-1">
+                        <NavLink
+                            to="/ClientdashboardHome"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center p-4 text-[#55CDF1] border-l-4 border-[#55CDF1] pl-2"
+                                    : "flex items-center p-4 text-gray-600 hover:text-[#55CDF1]"
+                            }
+                        >
+                            <span className="material-icons">home</span>
+                            <span className="ml-2">Home</span>
+                        </NavLink>
                     </li>
-                    <li className="mb-4">
-                        <a href="#" className="flex items-center ml-2">
-                        <img src={"/img10.png"} alt='calendar icon' className='mr-4'/>
-                        <span className="mr-4">Appointment</span>
-                        </a>
+                    <li className="mb-1">
+                        <NavLink
+                            to="/ClientdashboardAppointments"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center p-4 text-[#55CDF1] border-l-4 border-[#55CDF1] pl-2"
+                                    : "flex items-center p-4 text-gray-600 hover:text-[#55CDF1]"
+                            }
+                        >
+                            <span className="material-icons">event</span>
+                            <span className="ml-2">Appointment</span>
+                        </NavLink>
                     </li>
-                    <li className="mb-4">
-                        <a href="#" className="flex items-center ml-2">
-                            <img src={"/img11.png"} alt='inbox icon' className='mr-4'/>
-                            <span className="mr-4">Inbox</span>
-                        </a>
+                    <li className="mb-1">
+                        <NavLink
+                            to="/inbox"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center p-4 text-[#55CDF1] border-l-4 border-[#55CDF1] pl-2"
+                                    : "flex items-center p-4 text-gray-600 hover:text-[#55CDF1]"
+                            }
+                        >
+                            <span className="material-icons">inbox</span>
+                            <span className="ml-2">Inbox</span>
+                        </NavLink>
                     </li>
                     <li>
-                        <a href="#" className="flex items-center ml-2">
-                            <img src={"/img12.png"} alt='logout icon' className='mr-4'/>
-                            <span className="mr-4">Log out</span>
-                        </a>
+                        <NavLink
+                            to="/logout"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center p-4 text-[#55CDF1] border-l-4 border-[#55CDF1] pl-2"
+                                    : "flex items-center p-4 text-gray-600 hover:text-[#55CDF1]"
+                            }
+                        >
+                            <span className="material-icons">logout</span>
+                            <span className="ml-2">Log out</span>
+                        </NavLink>
                     </li>
                 </ul>
             </nav>
         </div>
-  )
-}
+    );
+};
 
-export default Sidebar
+export default Sidebar;

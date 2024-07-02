@@ -49,11 +49,15 @@ export const register = async (req,res) => {
       workDays,
       services,
     })
-    if(newUser){
-      generateTokenAndSetCookie(newUser._id , newUser.role , res)
-    }
-    await newUser.save()
-    res.status(201).json({success:newUser})
+    
+      await newUser.save()
+      const token = generateTokenAndSetCookie(newUser._id , newUser.role , res)
+      res.status(201).json({id:newUser._id,
+        fullName:newUser.fullName,
+        email:newUser.email,
+        role:newUser.role,
+        token})
+
   } catch (error) {
     console.log('Error In Register',error.message);
     res.status(500).json({error:'Internal Server Error!'})

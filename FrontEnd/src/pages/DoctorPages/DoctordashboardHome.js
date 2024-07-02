@@ -31,14 +31,14 @@ const DoctordashboardHome = () => {
             sender: 'John Doe',
             profilePicture: '',
             content: 'Hello there! How are you doing today?',
-            time:'11:00pm'
+            time: '11:00pm'
         },
         {
             id: 2,
             sender: 'Jane Smith',
             profilePicture: '',
             content: 'Hey! Just checking in. Do you have the latest updates?',
-            time:'11:00pm'
+            time: '11:00pm'
 
         },
         // Add more messages as needed
@@ -51,7 +51,7 @@ const DoctordashboardHome = () => {
 
     return (
         <div>
-            <Greeting name={'Chris'} />
+            <Greeting name={'Chris'} welcome={"Hello Dr."} text={'Here’s Your Summary for Today'} />
             <div className="p-2">
                 <h2 className="text-2xl font-bold mb-2">Upcoming Appointments</h2>
                 <div className="overflow-x-auto">
