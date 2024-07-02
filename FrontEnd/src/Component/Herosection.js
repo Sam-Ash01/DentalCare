@@ -5,7 +5,7 @@ import Buttonlight from './Buttonlight';
 import Buttondark from './Buttondark';
 function Herosection() {
   return (
-    <div className='flex flex-row bg-white'>
+    <div className='flex flex-row bg-white mt-9'>
 
       <div className='w-[50%] bg-white flex items-center justify-center'>
         {/* ===== */}
