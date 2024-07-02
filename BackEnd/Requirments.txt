@@ -14,7 +14,7 @@
 02- Show Unread Messages
 03- Show All Appointments Doctor *** [Done] /doctorAppointment
 04- Show Requests *** [Done] /doctorRequests
-05- Update Request State
+05- Update Request State *** [Done] /doctorRequests/:requestId
 06- Delete Appointment 
 07- Show Profile
 08- Update Profile

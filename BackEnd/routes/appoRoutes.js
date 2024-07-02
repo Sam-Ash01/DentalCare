@@ -1,5 +1,5 @@
 import express from 'express';
-import {addClientAppointment, allClientAppointments, deleteClientAppointment, allDoctorAppointments, allDoctorRequests} from '../controllers/appoController.js';
+import {addClientAppointment, allClientAppointments, deleteClientAppointment, allDoctorAppointments, allDoctorRequests, updateDoctorRequestsState} from '../controllers/appoController.js';
 import protectRoute from '../middlewares/protectRoute.js';
 
 
@@ -12,5 +12,6 @@ router.delete('/clinetAppointment/:appointmentId' ,protectRoute, deleteClientApp
 // -------- doctor
 router.get('/doctorAppointment', protectRoute, allDoctorAppointments);
 router.get('/doctorRequests', protectRoute, allDoctorRequests);
+router.patch('/doctorRequests/:requestId', protectRoute, updateDoctorRequestsState);
 
 export default router
