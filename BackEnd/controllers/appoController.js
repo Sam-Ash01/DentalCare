@@ -34,20 +34,16 @@ export const allClientAppointments = async (req, res) => {
 }
 }
 
-export const deleteClientAppointment = async (req, res) => {
+export const deleteClientAndDoctorAppointment = async (req, res) => {
     try {
         const {appointmentId} = req.params;
-        const checkAppointment = await Appointment.findOne({ appointmentId })
-        if(checkAppointment){
         if(req.user._id){
             const removeAppointment = await Appointment.findByIdAndDelete( appointmentId )
             res.status(200).json({ message: 'Appointment deleted successfully' })
         }else{
             res.json({ message: 'invalid user' })
         }
-    }else{
-        res.status(404).json({ message: 'appointment not found' })
-    }
+
     } catch (e) {
         res.send(e.message)
     }
@@ -94,7 +90,7 @@ export const updateDoctorRequestsState = async (req, res) => {
         const updateRequest = await Appointment.findByIdAndUpdate(requestId, { $set: { state: newState } }, { new: true });
 
         if (!updateRequest) {
-            res.status(200).json({ message: "No requests pending" });
+            res.status(400).json({ message: "No requests pending" });
         } else {
             res.status(200).json({ updateRequest });
         }

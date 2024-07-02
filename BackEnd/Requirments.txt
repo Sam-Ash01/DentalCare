@@ -4,7 +4,7 @@
 
 01- Book Appointment *** [Done] *** [Update Routes] /clientAppointment/:doctorId
 02- Show All Appointments Client *** [Done] *** [Update Routes] /clientAppointment
-03- Delete Appointment Client *** [Done] *** [Update Routes] /clinetAppointment/:appointmentId
+03- Delete Appointment Client *** [Done] *** [Update Routes] /clinetAndDoctorAppointment/:appointmentId
 04- Show All Doctors: -filter(service) -search by name
 
 
@@ -15,6 +15,6 @@
 03- Show All Appointments Doctor *** [Done] /doctorAppointment
 04- Show Requests *** [Done] /doctorRequests
 05- Update Request State *** [Done] /doctorRequests/:requestId
-06- Delete Appointment 
+06- Delete Appointment *** [Done] /clinetAndDoctorAppointment/:appointmentId
 07- Show Profile
 08- Update Profile
