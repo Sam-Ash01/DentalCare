@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { motion } from 'framer-motion';
 import Appointment from '../../Component/Appointment';
+import { TokenContext } from "../../Component/TokenProvider";
 
 function ClientdashboardAppointments() {
+    const {setToken} = useContext(TokenContext)
     const [appointments, setAppointments] = useState([
         {
             id: 1,

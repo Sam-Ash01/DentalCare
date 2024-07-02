@@ -42,7 +42,6 @@ function App() {
               {/* Doctor Dashboard */}
               <Route path='DoctorDashboardHome' element={<DoctordashboardHome />} />
               <Route path='DoctorDashboardAppointments' element={<DoctordashboardAppointments />} />
-
             </Route>
           </Routes>
         </Router>

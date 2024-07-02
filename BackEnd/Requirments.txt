@@ -6,7 +6,7 @@
 01- Book Appointment *** [Done] *** [Update Routes] http://localhost:5000/api/appo/clientAppointment/:doctorId
 02- Show All Appointments Client *** [Done] *** [Update Routes] http://localhost:5000/api/appo/clientAppointment
 03- Delete Appointment Client *** [Done] *** [Update Routes] http://localhost:5000/api/appo/clinetAppointment/:appointmentId
-04- Show All Doctors: -filter(service) -search by name
+04- Show All Doctors: -filter(service) -search by name http://localhost:5000/api/doctors
 
 
 ##Doctor:

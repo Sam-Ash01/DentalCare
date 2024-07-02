@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Greeting from '../../Component/Greeting';
+import { TokenContext } from "../../Component/TokenProvider";
 
 function ClientdashboardHome() {
+  const {setToken} = useContext(TokenContext)
   const [selectedService, setSelectedService] = useState(null);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
