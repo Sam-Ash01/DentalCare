@@ -1,7 +1,7 @@
 import Appointment from '../models/appointmentModel.js';
 import User from '../models/userModel.js';
 
-export const addAppointment = async (req, res) => {
+export const addClientAppointment = async (req, res) => {
         try {
         const { doctorId } = req.params;
     const { service, state, date, time, description, location } = req.body;
@@ -24,7 +24,7 @@ export const addAppointment = async (req, res) => {
 }
 }
 
-export const allAppointments = async (req, res) => {
+export const allClientAppointments = async (req, res) => {
     try{
         const userId = req.user._id;
     let clientAppointments = await Appointment.find({ userId });
@@ -34,7 +34,7 @@ export const allAppointments = async (req, res) => {
 }
 }
 
-export const deleteAppointment = async (req, res) => {
+export const deleteClientAppointment = async (req, res) => {
     try {
         const {appointmentId} = req.params;
         const checkAppointment = await Appointment.findOne({ appointmentId })
@@ -50,5 +50,55 @@ export const deleteAppointment = async (req, res) => {
     }
     } catch (e) {
         res.send(e.message)
+    }
+}
+
+
+export const allDoctorAppointments = async (req, res) => {
+    try{
+        const doctorId = req.user._id;
+
+        const findDoctorAppointments = await Appointment.find({ doctorId })
+        
+        if (findDoctorAppointments){
+            res.status(200).json({findDoctorAppointments});
+        } else {
+            res.json({ message: "No Doctor Appointments"})
+        }
+    } catch (e) {
+        res.send(e.message)
+    }
+}
+
+export const allDoctorRequests = async (req, res) => {
+    try{
+        const doctorId = req.user._id;
+        
+        const findDoctorAppointments = await Appointment.find({ doctorId })
+        
+        const fliterRequests =  findDoctorAppointments.filter(e => e.state === "pending");
+        if (fliterRequests){
+            res.status(200).json({fliterRequests})
+        } else {
+            res.json({ message: "No requests pending" })
+        }
+    } catch (e) {
+        res.send(e.message);
+    }
+}
+
+export const updateDoctorRequestsState = async (req, res) => {
+        const requestId = req.params.requestId;
+        const newState = req.body.state
+    try {
+        const updateRequest = await Appointment.findByIdAndUpdate(requestId, { $set: { state: newState } }, { new: true });
+
+        if (!updateRequest) {
+            res.status(200).json({ message: "No requests pending" });
+        } else {
+            res.status(200).json({ updateRequest });
+        }
+    } catch (e) {
+        res.status(500).send({ message: e.message });
     }
 }

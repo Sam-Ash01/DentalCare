@@ -1,13 +1,17 @@
 import express from 'express';
-import {addAppointment, allAppointments, deleteAppointment} from '../controllers/appoController.js';
+import {addClientAppointment, allClientAppointments, deleteClientAppointment, allDoctorAppointments, allDoctorRequests, updateDoctorRequestsState} from '../controllers/appoController.js';
 import protectRoute from '../middlewares/protectRoute.js';
 
 
 const router = express.Router();
 
-
-router.post('/addAppointment/:doctorId',protectRoute,addAppointment);
-router.get('/addAppointment' ,protectRoute, allAppointments);
-router.delete('/addAppointment/:appointmentId' ,protectRoute, deleteAppointment);
+// -------- client
+router.post('/clientAppointment/:doctorId',protectRoute,addClientAppointment);
+router.get('/clientAppointment' ,protectRoute, allClientAppointments);
+router.delete('/clinetAppointment/:appointmentId' ,protectRoute, deleteClientAppointment);
+// -------- doctor
+router.get('/doctorAppointment', protectRoute, allDoctorAppointments);
+router.get('/doctorRequests', protectRoute, allDoctorRequests);
+router.patch('/doctorRequests/:requestId', protectRoute, updateDoctorRequestsState);
 
 export default router
