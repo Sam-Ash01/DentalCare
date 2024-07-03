@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 function Buttonlight() {
   const navigate = useNavigate();
   const handleClickSign = () => {
-    alert('navigate to Login ')
+    alert('navigate to Sign in ')
     navigate('Login', { replace: true }); // navigate to /another-page
   };
   return (

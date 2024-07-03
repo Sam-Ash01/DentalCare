@@ -1,12 +1,7 @@
 import { useState,useEffect } from 'react';
+import { Link, useLocation,useNavigate  } from 'react-router-dom';
 import './../../Component/Style.css'
 function Dentalform() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   const [university, setUniversity] = useState('');
   const [year, setYear] = useState('');
   const [studentId, setStudentId] = useState('');
@@ -54,16 +49,17 @@ function Dentalform() {
       '03:00PM': false,
     },
   });
-  useEffect(() => {
-    // Get the current user's profile data
-    fetch('/api/profile')
-      .then(response => response.json())
-      .then(data => {
-        setUsername(data.username);
-        setEmail(data.email);
-      })
-      .catch(error => setError(error));
-  }, []);
+  const navigate = useNavigate();
+  // useEffect(() => {
+  //   // Get the current user's profile data
+  //   fetch('/api/profile')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setUsername(data.username);
+  //       setEmail(data.email);
+  //     })
+  //     .catch(error => setError(error));
+  // }, []);
 
   // const handleSubmit = async (event) => {
   //   event.preventDefault();
@@ -109,33 +105,36 @@ function Dentalform() {
   const handleSubmit = async (event) => {
     // console.log(email,password);
     event.preventDefault();
-    const res = await  fetch('http://localhost:5000/api/auth/register',{
-        method : 'POST',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify({
+    // if (!selectedDate || !selectedTime) {
+    //   console.error('Please select both date and time.');
+    //   return;
+    // }
+    // const res = await  fetch('http://localhost:5000/api/auth/register',{
+        // method : 'POST',
+        // headers:{
+        //     'Content-Type':'application/json'
+        // },
+        // body: JSON.stringify({
           // fullName:(formData.firstName.toString() + "" + formData.lastName.toString()),
           // email: formData.email, 
           // password: formData.password,
           // confirmPassword:formData.confirmPassword,
           // phone:formData.phoneNumber,
           // role:'doctor'
-        })})
-          console.log(res,'res');
-          if(res.ok){
-            console.log(res.ok)
-            const data = await res.json()
-            console.log(data.token,'token');
+        // })})
+          // console.log(res,'res');
+          // if(res.ok){
+          //   console.log(res.ok)
+          //   const data = await res.json()
+          //   console.log(data.token,'token');
             // const token = data.token
             // setToken(token)
-            console.log(data,'data');
+            // console.log(data,'data');
             alert('success!')
-            // navigate('/Dentalform')
-          }
+            navigate('/DoctorDashboardHome')
+          // }
 }
 
-  
   return (
   <div className="container mx-auto p-4 flex flex-row-reverse justify-between ">
     <div className='mw50 flex justify-center items-center mb-6'>

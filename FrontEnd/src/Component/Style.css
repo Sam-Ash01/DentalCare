@@ -43,6 +43,9 @@
     .flexclrev{
         flex-direction: column-reverse;
     }
+    .justyaround{
+        justify-content: space-around;
+    }
     .flexclomn{
         flex-direction: column;
     }
@@ -53,6 +56,9 @@
     }
     .w100per{
         width: 100vw;
+    }
+    .margineleft100{
+        margin-left: 100px;
     }
   }
 
