@@ -37,7 +37,9 @@ function SignupDoctor() {
           password: formData.password,
           confirmPassword:formData.confirmPassword,
           phone:formData.phoneNumber,
-          role:'doctor'
+          role:'doctor',
+          location:formData.location,
+          birthDate:formData.birthDate
         })})
           console.log(res,'res');
           if(res.ok){
