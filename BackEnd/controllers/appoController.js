@@ -100,17 +100,19 @@ export const updateDoctorRequestsState = async (req, res) => {
 }
 
 export const todayAppointment = async (req, res) => {
-    try{
-        const doctorId = req.user._id
-        const today = new Date();
-        const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        const todayString = today.toISOString().slice(0, 10);
-        let todayDate = await Appointment.find({ endOfDay });
-        const toString = todayDate.date;
-        const todayDateString = todayDate.toString().slice(0, 10);
-        console.log(todayDate);
-        res.status(200).json(todayDate)
+    try {
+      const doctorId = req.user._id;
+      const now = new Date();
+      const todayString = now.toISOString().slice(0, 10);
+      const todayAppointments = await Appointment.find({
+        doctorId,
+        date: {
+          $gte: todayString,
+          $lt: todayString + 'T23:59:59.999Z',
+        },
+      });
+      res.status(200).json(todayAppointments);
     } catch (e) {
-        res.send(e.message)
+      res.send(e.message);
     }
-}
+  };
