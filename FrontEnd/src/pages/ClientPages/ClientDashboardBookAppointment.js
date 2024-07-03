@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation,useNavigate  } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 
 const ClientDashboardBookAppointment = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const initialDoctorName = queryParams.get('doctor') || '';
-  const initialService = queryParams.get('service') || 'Orthodontics'; // Default value if service is not provided
+  const initialDoctorName = queryParams.get('doctorName') || '';
+  const doctorId = queryParams.get('doctorId') || '';
+  const initialService = queryParams.get('service') || 'Orthodontics';
 
   const [doctorName, setDoctorName] = useState(initialDoctorName);
   const [selectedService, setSelectedService] = useState(initialService);
@@ -14,49 +15,16 @@ const ClientDashboardBookAppointment = () => {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const [description, setDescription] = useState('');
+  const [showToast, setShowToast] = useState(false); // State for toast message
 
-  // Simulating fetch data from backend API
   useEffect(() => {
     // Fake data for demonstration
-    const fakeDates = [
-      '2024-07-10',
-      '2024-07-11',
-      '2024-07-12',
+    const fakeDates = ['2024-07-10', '2024-07-11', '2024-07-12'];
+    const fakeTimes = ['09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM'];
 
-    ];
-
-    const fakeTimes = [
-      '09:00 AM',
-      '10:00 AM',
-      '11:00 AM',
-      '12:00 PM',
-      '01:00 PM',
-      '02:00 PM',
-    ];
-
-    const fetchDates = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(fakeDates);
-        }, 1000);
-      });
-    };
-
-    const fetchTimes = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(fakeTimes);
-        }, 500);
-      });
-    };
-
-    fetchDates().then((data) => {
-      setAvailableDates(data);
-    });
-
-    fetchTimes().then((data) => {
-      setAvailableTimes(data);
-    });
+    setAvailableDates(fakeDates);
+    setAvailableTimes(fakeTimes);
   }, []);
 
   const handleDateSelection = (date) => {
@@ -67,10 +35,57 @@ const ClientDashboardBookAppointment = () => {
     setSelectedTime(time);
   };
 
-  const handleSubmit = (e) => {
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const navigate = useNavigate(); // Hook to perform navigation
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can optionally prevent form submission if doctorName and selectedService are not allowed to change
-    // Example: console.log("Form submitted with:", doctorName, selectedService);
+
+    if (!selectedDate || !selectedTime) {
+      console.error('Please select both date and time.');
+      return;
+    }
+
+    const appointmentData = {
+      doctorId: doctorId,
+      date: selectedDate,
+      time: selectedTime,
+      description: description,
+      service: selectedService,
+    };
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/appo/clientAppointment/${doctorId}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(appointmentData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Reset form fields
+      setSelectedDate('');
+      setSelectedTime('');
+      setDescription('');
+
+      // Show toast message after successful submission
+      setShowToast(true);
+
+      // Redirect to new page after successful submission
+      navigate('/ClientdashboardAppointments');
+
+    } catch (error) {
+      console.error('There was a problem adding the appointment:', error);
+      // Handle error state or show a message to the user
+    }
   };
 
   return (
@@ -115,15 +130,14 @@ const ClientDashboardBookAppointment = () => {
               <label htmlFor="appointmentDate" className="block text-sm font-medium text-gray-700 mb-1">Select Date</label>
               <div className="flex space-x-2 mb-2">
                 {availableDates.map((date, index) => (
-                  <button
+                  <span
                     key={index}
-                    className={`px-3 py-2 bg-[#55CDF1] border border-[#55CDF1] text-[#55CDF1] rounded-md hover:bg-[#55CDF1] hover:text-white transition duration-200 ${
-                      selectedDate === date ? 'bg-[#55CDF1] text-white' : 'bg-white'
-                    }`}
+                    className={`px-3 py-2 bg-[#55CDF1] border border-[#55CDF1] text-[#55CDF1] rounded-md hover:bg-[#55CDF1] hover:text-white transition duration-200 ${selectedDate === date ? 'bg-[#55CDF1] text-white' : 'bg-white'
+                      }`}
                     onClick={() => handleDateSelection(date)}
                   >
                     {date}
-                  </button>
+                  </span>
                 ))}
               </div>
               <input
@@ -137,15 +151,14 @@ const ClientDashboardBookAppointment = () => {
               <label htmlFor="appointmentTime" className="block text-sm font-medium text-gray-700 mb-1">Select Time</label>
               <div className="flex space-x-2 mb-2">
                 {availableTimes.map((time, index) => (
-                  <button
+                  <span
                     key={index}
-                    className={`px-3 py-2 bg-[#55CDF1] border border-[#55CDF1] text-[#55CDF1] rounded-md hover:bg-[#55CDF1] hover:text-white transition duration-200 ${
-                      selectedTime === time ? 'bg-[#55CDF1] text-white' : 'bg-white'
-                    }`}
+                    className={`px-3 py-2 bg-[#55CDF1] border border-[#55CDF1] text-[#55CDF1] rounded-md hover:bg-[#55CDF1] hover:text-white transition duration-200 ${selectedTime === time ? 'bg-[#55CDF1] text-white' : 'bg-white'
+                      }`}
                     onClick={() => handleTimeSelection(time)}
                   >
                     {time}
-                  </button>
+                  </span>
                 ))}
               </div>
               <input
@@ -160,6 +173,8 @@ const ClientDashboardBookAppointment = () => {
               <textarea
                 id="description"
                 placeholder="Enter Description"
+                value={description}
+                onChange={handleDescriptionChange}
                 className="px-3 py-2 w-full h-20 border border-gray-300 rounded-md focus:outline-none focus:border-[#55CDF1]"
               ></textarea>
             </div>
@@ -172,6 +187,13 @@ const ClientDashboardBookAppointment = () => {
           </form>
         </div>
       </div>
+
+      {/* Toast component */}
+      {showToast && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg">
+          Your Appointment has been added Successfully
+        </div>
+      )}
     </div>
   );
 };

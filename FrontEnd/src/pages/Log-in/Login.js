@@ -19,7 +19,7 @@ function Login() {
     const res = await fetch('http://localhost:5000/api/auth/login',
     {
       method : 'POST',
-      // credentials:'include',
+      credentials:'include',
     headers:{
         'Content-Type':'application/json'
     },

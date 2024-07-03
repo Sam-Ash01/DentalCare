@@ -8,7 +8,7 @@ import Market from './Market'
 import Footer from './Footer'
 function Homepage() {
   return (
-    <div>
+    <div className='bg-white'>
       <Navbar />
       <Herosection/>
       <About/>

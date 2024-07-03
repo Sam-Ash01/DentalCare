@@ -5,9 +5,10 @@ import Greeting from '../../Component/Greeting';
 import { TokenContext } from "../../Component/TokenProvider";
 
 function ClientdashboardHome() {
-  const {setToken} = useContext(TokenContext)
+  const { token, setToken } = useContext(TokenContext); // Add token from context
   const [selectedService, setSelectedService] = useState(null);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredDentists, setFilteredDentists] = useState([]);
   const [dentists, setDentists] = useState([]);
@@ -25,16 +26,24 @@ function ClientdashboardHome() {
 
   const handleBookAppointment = (doctor) => {
     setSelectedDoctor(doctor.fullName);
+    setSelectedDoctorId(doctor._id); // Assuming the doctor object has an _id field
   };
 
   useEffect(() => {
     const fetchDentists = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users/doctors');
+        const response = await fetch('http://localhost:5000/api/users/doctors', {
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
 
         // Debugging: Log the fetched data
-        console.log("Fetched dentists:", data);
+        console.log('Fetched dentists:', data);
 
         // Ensure the data contains a 'doctors' array
         if (Array.isArray(data.doctors)) {
@@ -118,7 +127,7 @@ function ClientdashboardHome() {
                 <p className="text-gray-600 inline-block">Services: {dentist.services.join(', ')}</p>
               </div>
               <Link
-                to={`/ClientDashboardBookAppointment?doctor=${encodeURIComponent(dentist.fullName)}&service=${encodeURIComponent(selectedService)}`}
+                to={`/ClientDashboardBookAppointment?doctorId=${encodeURIComponent(dentist._id)}&doctorName=${encodeURIComponent(dentist.fullName)}&service=${encodeURIComponent(selectedService)}`}
                 className="ml-auto"
                 onClick={() => handleBookAppointment(dentist)}
               >
@@ -129,8 +138,7 @@ function ClientdashboardHome() {
                 >
                   Book an appointment
                 </motion.button>
-              </Link>
-            </motion.div>
+              </Link>            </motion.div>
           ))}
         </div>
       </div>
