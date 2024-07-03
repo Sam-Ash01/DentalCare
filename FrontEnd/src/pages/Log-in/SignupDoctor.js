@@ -56,22 +56,16 @@ function SignupDoctor() {
 
 
   return (
-    <div className='flex justify-around items-center flex-row-reverse flexclomn margintop1'>
-    <div className='mw50 flex justify-center'>
-    <img
-        className=" w-1/2 "
-        src={'./About2.png'}
-        alt="About Hero Image"
-        />
-    </div>
-    <div className="container  mt-10 mw50 pl-9 flex justify-start flex-col items-start">
+  <div className='flex justify-around md:m-20 margintop1 flexclrev margineleft100'>
+    <div className=' w-1/3 flex justify-center'>
+      <div className="container  mt-10 mw50 pl-9 flex justify-center flex-col items-start">
       <h1 className="text-3xl font-bold text-center mb-8 ">
         Sign up as a<span className='blueden'>Dental Student</span>
       </h1>
       <p className="text-center mb-10">
         Let's get you all set up so you can access your personal account.
       </p>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleChange} className="flex flex-col gap-4">
         <div className="flex gap-4">
           <div className="relative flex flex-col w-full">
             <label htmlFor="text" className="text-gray-700 text-sm font-bold mb-2 bg-white absolute top-15 left-3 px-2">
@@ -81,7 +75,7 @@ function SignupDoctor() {
               type="text"
               id="text"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="john.doe@gmail.com"
+              placeholder="First Name"
             />
           </div>
           <div className="relative flex flex-col w-full">
@@ -95,7 +89,7 @@ function SignupDoctor() {
               value={formData.lastName}
               onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="john.doe@gmail.com"
+              placeholder="Last Name"
             />
           </div>
         </div>
@@ -199,6 +193,7 @@ function SignupDoctor() {
             />
           </div> */}
         </div>
+        
         <button
           type="submit"
           className="bgblueden hover:bg-white bluedenhover borderbluedenthover text-white font-bold py-2 px-4 rounded-md"
@@ -212,9 +207,17 @@ function SignupDoctor() {
         </a>
       </p>
       </form>
+      </div>
+    </div>
+    <div className=' w-1/3 flex justify-end'>
+    <img
+        className=" w-1/2 "
+        src={'./About2.png'}
+        alt="About Hero Image"
+        />
     </div>
     </div>
-  );
+)
 }
 
 export default SignupDoctor;
