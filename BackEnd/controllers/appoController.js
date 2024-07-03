@@ -34,20 +34,16 @@ export const allClientAppointments = async (req, res) => {
 }
 }
 
-export const deleteClientAppointment = async (req, res) => {
+export const deleteClientAndDoctorAppointment = async (req, res) => {
     try {
         const {appointmentId} = req.params;
-        const checkAppointment = await Appointment.findOne({ appointmentId })
-        if(checkAppointment){
         if(req.user._id){
             const removeAppointment = await Appointment.findByIdAndDelete( appointmentId )
             res.status(200).json({ message: 'Appointment deleted successfully' })
         }else{
             res.json({ message: 'invalid user' })
         }
-    }else{
-        res.status(404).json({ message: 'appointment not found' })
-    }
+
     } catch (e) {
         res.send(e.message)
     }
@@ -94,11 +90,27 @@ export const updateDoctorRequestsState = async (req, res) => {
         const updateRequest = await Appointment.findByIdAndUpdate(requestId, { $set: { state: newState } }, { new: true });
 
         if (!updateRequest) {
-            res.status(200).json({ message: "No requests pending" });
+            res.status(400).json({ message: "No requests pending" });
         } else {
             res.status(200).json({ updateRequest });
         }
     } catch (e) {
         res.status(500).send({ message: e.message });
+    }
+}
+
+export const todayAppointment = async (req, res) => {
+    try{
+        const doctorId = req.user._id
+        const today = new Date();
+        const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const todayString = today.toISOString().slice(0, 10);
+        let todayDate = await Appointment.find({ endOfDay });
+        const toString = todayDate.date;
+        const todayDateString = todayDate.toString().slice(0, 10);
+        console.log(todayDate);
+        res.status(200).json(todayDate)
+    } catch (e) {
+        res.send(e.message)
     }
 }
