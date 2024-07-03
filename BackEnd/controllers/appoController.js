@@ -137,3 +137,36 @@ export const todayAppointment = async (req, res) => {
       res.send(e.message);
     }
   };
+
+
+  export const doctorAvailableAppointments = async (req, res) => {
+    try {
+      const doctorId = req.params.doctorId; // assuming doctorId is a param in the URL
+      const doctor = await User.findOne({ _id: doctorId, role: 'doctor' }); // find the doctor by ID and role
+      if (!doctor) {
+        return res.status(404).json({ message: 'Doctor not found' });
+      }
+  
+      const workDays = doctor.workDays; // get the work days object
+      const availableAppointments = {}; // initialize an object to store available appointments
+  
+      // assume you have an Appointment model to store bookings
+      const appointments = await Appointment.find({ doctor: doctorId }); // find all appointments for this doctor
+  
+      Object.keys(workDays).forEach((day) => {
+        availableAppointments[day] = workDays[day].map((timeSlot) => {
+          const isBooked = appointments.some((appointment) => {
+            return appointment.day === day && appointment.time === timeSlot;
+          });
+          return {
+            time: timeSlot,
+            available:!isBooked, // if booked, set available to false
+          };
+        });
+      });
+  
+      res.json(availableAppointments);
+    } catch (e) {
+      res.send(e.message);
+    }
+  };

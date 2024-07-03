@@ -9,7 +9,7 @@
 
 ##Doctor:
 
-01- Show Today Appointments
+01- Show Today Appointments *** [Done] http://localhost:5000/api/appo/doctorTodayAppointments
 02- Show Unread Messages
 03- Show All Appointments Doctor *** [Done] http://localhost:5000/api/appo/doctorAppointment
 04- Show Requests *** [Done] http://localhost:5000/api/appo/doctorRequests
@@ -17,3 +17,4 @@
 06- Delete Appointment *** [Done] /clinetAndDoctorAppointment/:appointmentId
 07- Show Profile
 08- Update Profile
+09- Doctor Available Appointments *** [Done] http://localhost:5000/api/doctorAvailableAppointments/:doctorId
