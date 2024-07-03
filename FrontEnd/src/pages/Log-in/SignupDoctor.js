@@ -26,7 +26,7 @@ function SignupDoctor() {
   const handleSubmit = async (event) => {
     // console.log(email,password);
     event.preventDefault();
-    const res = await  fetch('http://localhost:5000/api/auth/register',{
+    const res = await  fetch('http://localhost:5000/api/auth/doctors',{
         method : 'POST',
         headers:{
             'Content-Type':'application/json'
