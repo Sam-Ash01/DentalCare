@@ -19,7 +19,7 @@ function Login() {
     const res = await fetch('http://localhost:5000/api/auth/login',
     {
       method : 'POST',
-      // credentials:'include',
+      credentials:'include',
     headers:{
         'Content-Type':'application/json'
     },
@@ -41,7 +41,7 @@ function Login() {
 }
   return (
     <div className="flex items-center justify-start min-h-screen bg-blue-100 flexclomn">
-    <div className=" flex justify-start w-full w100per">
+    <div className=" flex justify-start  w-full w100per">
     <img
         className=" w35pers h-screen w100per   "
         src={'./Heroleft.png'}

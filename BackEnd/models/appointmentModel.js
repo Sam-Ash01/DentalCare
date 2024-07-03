@@ -5,6 +5,10 @@ const appointmentSchema = mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
   },
+  doctorName:{
+    type:String,
+    required:true,
+  },
   userId:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
@@ -20,7 +24,7 @@ const appointmentSchema = mongoose.Schema({
     default:'pending'
   },
   date:{
-    type:Date,
+    type:String,
     required:true
   },
   time:{
@@ -31,7 +35,8 @@ const appointmentSchema = mongoose.Schema({
     type:String,
   },
   location:{
-    type:String
+    type:String,
+    required:true,
   }
 
 },{timeStamps:true})

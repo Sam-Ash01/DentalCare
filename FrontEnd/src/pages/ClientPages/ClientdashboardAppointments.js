@@ -1,30 +1,45 @@
-import React, { useState, useContext } from 'react';
+import React, { useState,useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import Appointment from '../../Component/Appointment';
 import { TokenContext } from "../../Component/TokenProvider";
 
 function ClientdashboardAppointments() {
     const {setToken} = useContext(TokenContext)
-    const [appointments, setAppointments] = useState([
-        {
-            id: 1,
-            profilePicture: '',
-            name: 'John Doe',
-            location: 'New York, NY',
-            date: '2023-07-01',
-            time: '10:00 AM',
-            status: 'Approved'
-        },
-        {
-            id: 2,
-            profilePicture: '',
-            name: 'Jane Smith',
-            location: 'Los Angeles, CA',
-            date: '2023-07-02',
-            time: '2:00 PM',
-            status: 'Pending'
-        }
-    ]);
+    const [appointments, setAppointments] = useState([]);
+
+    useEffect(() => {
+      const fetchAppointments = async () => {
+          try {
+              const response = await fetch('http://localhost:5000/api/appo/clientAppointment', {
+                  credentials: 'include',
+              });
+  
+              if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+  
+              const data = await response.json();
+  
+              // Debugging: Log the fetched data
+              console.log('Fetched Appointments:', data);
+  
+              // Ensure the data contains a 'clientAppointments' array
+              if (Array.isArray(data.clientAppointments)) {
+                // Sort appointments by createdAt
+                const sortedAppointments = data.clientAppointments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setAppointments(sortedAppointments);
+              } else {
+                  console.error('Fetched data does not contain a clientAppointments array', data);
+              }
+          } catch (error) {
+              console.error('There was an error fetching the appointments!', error);
+          }
+      };
+  
+      fetchAppointments();
+  }, []);
+  
+        
 
     const handleDelete = (id) => {
         setAppointments(appointments.filter(appointment => appointment.id !== id));
@@ -55,11 +70,11 @@ function ClientdashboardAppointments() {
                             >
                                 <Appointment
                                     profilePicture={appointment.profilePicture}
-                                    name={appointment.name}
+                                    name={appointment.doctorName}
                                     location={appointment.location}
                                     date={appointment.date}
                                     time={appointment.time}
-                                    status={appointment.status}
+                                    status={appointment.state}
                                     onDelete={() => handleDelete(appointment.id)}
                                 />
                             </motion.div>

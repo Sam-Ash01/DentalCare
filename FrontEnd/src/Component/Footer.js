@@ -9,7 +9,9 @@ function Footer() {
     return (
         <div className="bg-gray-200 py-6 ">
             <div className="flex flex-col items-center">
-                <h2 className="text-xl font-bold mb-2 mt-5">Smile Bridge</h2>
+                <div className="text-xl font-bold mb-2 mt-5">
+                    <span >SMILE </span><span>BRIDGE</span>
+                </div>
                 <div className="flex space-x-4 mb-6 w-36 h-[2px] bg-black ">
                 </div>
 

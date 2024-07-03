@@ -16,7 +16,12 @@
 .borderbluedenthover:hover{
     border: 1px rgb(85, 205, 241) solid;
 }
+.borderbluedentfocus:focus{
+    border: 1px rgb(85, 205, 241) solid;
+}
 .bluedenhover:hover{
+    color: rgb(85, 205, 241);
+}.bluedenfocus:focus{
     color: rgb(85, 205, 241);
 }
 .bluedenhover1:hover{

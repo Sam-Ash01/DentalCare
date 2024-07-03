@@ -6,7 +6,7 @@ import pic2 from './About2.png'
 import { SiTicktick } from "react-icons/si";
 function About() {
   return (
-    <div className="container mx-auto px-4 py-16 text-center margintop10">
+    <div className="container mx-auto px-4 bg-white py-16 text-center margintop10">
       <h2 className="text-3xl font-bold mb-4">About us</h2>
       <div className="">
         <div className="flex justify-around items-center flexclomn ">

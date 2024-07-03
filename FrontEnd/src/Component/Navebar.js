@@ -5,11 +5,11 @@ import './Style.css'
 function Navbar() {
   
   return (
-    <nav className="bg-white shadow-md fixed top-0 w-dvw">
+    <nav className="bg-white shadow-md fixed top-0 w-dvw z-10">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <div className="flex items-center">
           <a href="/" className="text-xl font-bold blueden">
-            Logo
+            <span >SMILE</span><span className='text-black'>BRIDGE</span>
           </a>
         </div>
         <div className="hidden md:flex items-center space-x-6">
