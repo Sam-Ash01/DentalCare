@@ -48,7 +48,7 @@ function SignupDoctor() {
             setToken(token)
             console.log(data,'data');
             alert('success!')
-            navigate('/DoctordashboardHome')
+            navigate('/Dentalform')
           }
 }
 
